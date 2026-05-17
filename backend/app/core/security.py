@@ -1,6 +1,5 @@
-"""JWT token creation/verification and password hashing (pure bcrypt)."""
+"""Password hashing (bcrypt) and JWT token management."""
 
-import logging
 from datetime import datetime, timedelta, timezone
 
 import bcrypt
@@ -8,20 +7,15 @@ from jose import JWTError, jwt
 
 from app.core.config import settings
 
-logger = logging.getLogger(__name__)
-
 
 def hash_password(password: str) -> str:
-    return bcrypt.hashpw(
-        password.encode("utf-8"), bcrypt.gensalt()
-    ).decode("utf-8")
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
 
 def verify_password(plain: str, hashed: str) -> bool:
     try:
         return bcrypt.checkpw(plain.encode("utf-8"), hashed.encode("utf-8"))
-    except Exception as exc:
-        logger.error("bcrypt verification failed: %s", exc)
+    except Exception:
         return False
 
 

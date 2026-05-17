@@ -36,19 +36,34 @@ jobs:
       - name: Clean database from previous run
         run: rm -f stitchcore.db
 
+      - name: Create .env for CI
+        run: |
+          cat > .env << 'EOF'
+          DATABASE_URL=sqlite+aiosqlite:///./stitchcore.db
+          SECRET_KEY=test-secret-key-for-ci-2026
+          DEBUG=false
+          EOF
+          echo "Created .env:"
+          cat .env
+
       - name: Start backend server
         run: |
           uvicorn app.main:app --host 127.0.0.1 --port 8000 > /tmp/uvicorn.log 2>&1 &
-          echo "PID=$!"
-          # Wait for server to be ready (poll / endpoint)
+          SERVER_PID=$!
+          echo "Server PID: $SERVER_PID"
+          # Poll / endpoint until ready (up to 30s)
           for i in $(seq 1 30); do
-            if curl -s http://127.0.0.1:8000/ > /dev/null 2>&1; then
-              echo "Server is ready after ${i}s"
+            RESP=$(curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8000/ 2>/dev/null || echo "000")
+            if [ "$RESP" = "200" ]; then
+              echo "Server is ready after ${i}s (HTTP 200)"
               break
             fi
+            echo "Attempt $i: HTTP $RESP — waiting..."
             if [ "$i" -eq 30 ]; then
-              echo "Server failed to start"
+              echo "=== Server failed to start after 30s ==="
+              echo "--- uvicorn log (/tmp/uvicorn.log) ---"
               cat /tmp/uvicorn.log
+              echo "--- end of log ---"
               exit 1
             fi
             sleep 1
@@ -56,6 +71,15 @@ jobs:
 
       - name: Run API tests
         run: python ../test_all.py
+        env:
+          PYTHONUNBUFFERED: "1"
+
+      - name: Dump server logs (on failure)
+        if: failure()
+        run: |
+          echo "=== uvicorn log (/tmp/uvicorn.log) ==="
+          cat /tmp/uvicorn.log
+          echo "=== end of log ==="
 
       - name: Stop backend server
         if: always()
