@@ -1,0 +1,66 @@
+# StitchCore - .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+*.whl
+.env
+venv/
+.venv/
+
+# Node
+node_modules/
+.next/
+out/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+backups/
+
+# Media
+media/products/*
+media/returns/*
+!media/products/.gitkeep
+!media/returns/.gitkeep
+
+# Docker
+docker/nginx/ssl/*.key
+docker/nginx/ssl/*.crt
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# Test artifacts
+.pytest_cache/
+test-results/
+
+# Environment
+.env.local
+.env.production
+
+# Generated
+*.generated.*
