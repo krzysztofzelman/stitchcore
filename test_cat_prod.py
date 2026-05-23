@@ -4,7 +4,7 @@ import requests, sys
 BASE = 'http://localhost:8000/api/v1'
 
 # Login admin
-r = requests.post(f'{BASE}/auth/login', json={'email':'admin@stitchcore.pl','password':'admin123'})
+r = requests.post(f'{BASE}/auth/login', json={'email':'admin@mercha.pl','password':'admin123'})
 token = r.json()['access_token']
 print(f'Admin token: {token[:20]}...')
 

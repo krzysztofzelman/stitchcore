@@ -30,7 +30,7 @@ Gotowy do lokalnego uruchomienia przez Docker Compose oraz do wdrożenia na serw
 
 | Pole | Wartość |
 |------|---------|
-| 📧 Email | `admin@stitchcore.pl` |
+| 📧 Email | `admin@mercha.pl` |
 | 🔑 Hasło | `admin123` |
 
 ---
@@ -268,11 +268,11 @@ Panel administracyjny uruchomi się na **http://localhost:5174**.
 
 Backend automatycznie przy starcie:
 - ✅ Wykonuje migracje Alembic (`alembic upgrade head`)
-- ✅ Tworzy domyślnego administratora: `admin@stitchcore.pl` / `admin123`
+- ✅ Tworzy domyślnego administratora: `admin@mercha.pl` / `admin123`
 
 Po uruchomieniu wszystkich trzech aplikacji zaloguj się do panelu admina:
 - **URL:** http://localhost:5174/login
-- **Email:** `admin@stitchcore.pl`
+- **Email:** `admin@mercha.pl`
 - **Hasło:** `admin123`
 
 ### 🌱 Seed danych (opcjonalnie)

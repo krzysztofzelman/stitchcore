@@ -82,7 +82,7 @@ print(f'2. REGISTER duplicate: {r.status_code} - {r.json()["detail"]}')
 # ═══════════════════════════════════════════════════
 # 3. Login admin
 # ═══════════════════════════════════════════════════
-r = req('POST', f'{BASE}/auth/login', json={'email': 'admin@stitchcore.pl', 'password': 'admin123'})
+r = req('POST', f'{BASE}/auth/login', json={'email': 'admin@mercha.pl', 'password': 'admin123'})
 assert r.status_code == 200, f'[3] Admin login failed: {r.status_code} {r.text[:300]}'
 admin_token = r.json()['access_token']
 refresh_token = r.json()['refresh_token']

@@ -16,7 +16,7 @@ r = requests.post(f'{BASE}/auth/register', json={'email':'new@test.pl','password
 print(f'REGISTER new: {r.status_code} - OK')
 
 # Test login admin
-r = requests.post(f'{BASE}/auth/login', json={'email':'admin@stitchcore.pl','password':'admin123'})
+r = requests.post(f'{BASE}/auth/login', json={'email':'admin@mercha.pl','password':'admin123'})
 assert r.ok, f'Admin login failed: {r.json()}'
 admin_token = r.json()['access_token']
 print(f'LOGIN admin: OK')

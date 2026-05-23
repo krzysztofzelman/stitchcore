@@ -45,7 +45,7 @@ print('1. ROOT: OK')
 
 # 2. Register + login admin
 r = req('POST', f'{BASE}/auth/login',
-        json={'email': 'admin@stitchcore.pl', 'password': 'admin123'})
+        json={'email': 'admin@mercha.pl', 'password': 'admin123'})
 assert r.status_code == 200, f'Admin login: {r.status_code} {r.text[:200]}'
 admin_token = r.json()['access_token']
 refresh_token = r.json()['refresh_token']
