@@ -10,6 +10,20 @@ jobs:
   backend:
     name: Backend (Python)
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: mercha_test
+          POSTGRES_USER: mercha
+          POSTGRES_PASSWORD: mercha123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     defaults:
       run:
         working-directory: ./backend
@@ -33,13 +47,10 @@ jobs:
       - name: Check imports and syntax
         run: python -c "import ast; ast.parse(open('app/main.py').read())"
 
-      - name: Clean database from previous run
-        run: rm -f stitchcore.db
-
       - name: Create .env for CI
         run: |
           cat > .env << 'EOF'
-          DATABASE_URL=sqlite+aiosqlite:///./stitchcore.db
+          DATABASE_URL=postgresql+asyncpg://mercha:mercha123@localhost:5432/mercha_test
           SECRET_KEY=test-secret-key-for-ci-2026
           DEBUG=false
           EOF
